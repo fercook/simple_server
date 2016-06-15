@@ -6,7 +6,7 @@ import datetime
 import uuid 
 
 __UPLOADS__ = "marenostrum/uploads/"
-__SCORES__ = "marenostrums/scores/"
+__SCORES__ = "marenostrum/scores/"
 __MIDIS__ = "marenostrum/midi/"
 class HitAndShitHandler(tornado.web.RequestHandler): # From Hit/Shit main page
     def get(self):
@@ -30,15 +30,19 @@ class MusicComposer(tornado.web.RequestHandler):
 
 class ScoreSongHandler(tornado.web.RequestHandler): # From Hit/Shit main page
     def get(self):
-        self.write("ScoreSongHandler")
+        #self.write("ScoreSongHandler")
         cname = str(uuid.uuid4()) + '.score'
         fh = open(__SCORES__ + cname, 'w')
-	songID = self.get_argument("id")
-	songScore = self.get_argument("score","0")
-        fh.write(songID+" "+songScore)
-        self.finish(cname + " was uploaded!!")
-        self.write("song id: "+songID+" score: "+songScore)
-        #self.write("\n : "+os.path.join(os.path.dirname(__file__), "client/hitAndShit.html"))
+        songID = self.get_argument("id")
+        songScore = self.get_argument("score","0")
+        songSource = self.get_argument("source")
+	fh.write(songID+" "+songScore+" "+songSource+" "+str(datetime.datetime.now()))
+        #self.finish(cname + " was uploaded!!")
+        #self.write("song id: "+songID+" score: "+songScore)
+        if (songSource=="composer"):
+                self.render("client/musiccomposer/index.html");
+        else:
+                self.render("client/ikerealm/drawingmusic.html");
 
 class GetSongsHandler(tornado.web.RequestHandler): # From Hit/Shit main page
     def get(self):
