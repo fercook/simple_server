@@ -3,7 +3,8 @@ import tornado.web
 import os.path
 import logging
 import datetime
-import uuid 
+import uuid
+import base64
 
 __UPLOADS__ = "marenostrum/uploads/"
 __SCORES__ = "marenostrum/scores/"
@@ -75,11 +76,11 @@ class SaveSongHandler(tornado.web.RequestHandler): # From drawing or composer ap
         self.write("SaveSongHandler")
         #fileinfo = self.request.files['filearg'][0]
         #fname = fileinfo['filename']
-	data = self.request.body
-	cname = str(uuid.uuid4()) + '.mid'
-	fh = open(__UPLOADS__ + cname, 'w')
-	fh.write(data)
-	self.finish(cname + " is uploaded!!)
+    data = self.request.body
+    cname = str(uuid.uuid4()) + '.mid'
+    fh = open(__UPLOADS__ + cname, 'wb')
+    fh.write(base64.b64decode(data.replace("data:image/png;base64,", "")))
+    self.finish(cname + " is uploaded!! Check %s folder" %__UPLOADS__)
         #filedata = fileinfo['body']
         #print(fname+'  '+filedata[:100])
 
@@ -95,12 +96,12 @@ def make_app():
     return tornado.web.Application(handlers=[
         (r"/hitorshit", HitAndShitHandler),
         (r"/composerhitorshit", ComposerHitOrShitHandler),
-	(r"/drawingmusic", DrawingMusic),
+	    (r"/drawingmusic", DrawingMusic),
         (r"/score-song", ScoreSongHandler),
         (r"/get-songs", GetSongsHandler),
         (r"/save-song", SaveSongHandler),
         (r"/midisupply", MIDISupply),
-	(r"/musiccomposer", MusicComposer),
+	    (r"/musiccomposer", MusicComposer),
         ],**settings)
 
 if __name__ == "__main__":
