@@ -30,7 +30,14 @@ class MusicComposer(tornado.web.RequestHandler):
 
 class ScoreSongHandler(tornado.web.RequestHandler): # From Hit/Shit main page
     def get(self):
-        self.write("song id: "+self.get_argument("id")+" score: "+self.get_argument("score","0"))
+        self.write("ScoreSongHandler")
+        cname = str(uuid.uuid4()) + '.score'
+        fh = open(__SCORES__ + cname, 'w')
+	songID = self.get_argument("id")
+	songScore = self.get_argument("score","0")
+        fh.write(songID+" "+songScore)
+        self.finish(cname + " was uploaded!!)
+        self.write("song id: "+songID+" score: "+songScore)
         #self.write("\n : "+os.path.join(os.path.dirname(__file__), "client/hitAndShit.html"))
 
 class GetSongsHandler(tornado.web.RequestHandler): # From Hit/Shit main page
@@ -68,7 +75,7 @@ class SaveSongHandler(tornado.web.RequestHandler): # From drawing or composer ap
 	cname = str(uuid.uuid4()) + '.mid'
 	fh = open(__UPLOADS__ + cname, 'w')
 	fh.write(data)
-	self.finish(cname + " is uploaded!! Check %s folder" %__UPLOADS__)
+	self.finish(cname + " is uploaded!!)
         #filedata = fileinfo['body']
         #print(fname+'  '+filedata[:100])
 
