@@ -15,7 +15,7 @@ class HitAndShitHandler(tornado.web.RequestHandler): # From Hit/Shit main page
 
 class ComposerHitOrShitHandler(tornado.web.RequestHandler):
     def get(self):
-	self.render("client/musiccomposer/index_HorS.html")
+	   self.render("client/musiccomposer/index_HorS.html")
 
 class DrawingMusic(tornado.web.RequestHandler):
     def get(self):
@@ -27,7 +27,7 @@ class MIDISupply(tornado.web.RequestHandler):
 
 class MusicComposer(tornado.web.RequestHandler):
     def get(self):
-	self.render("client/musiccomposer/index.html");
+	   self.render("client/musiccomposer/index.html");
 
 class ScoreSongHandler(tornado.web.RequestHandler): # From Hit/Shit main page
     def get(self):
@@ -37,7 +37,7 @@ class ScoreSongHandler(tornado.web.RequestHandler): # From Hit/Shit main page
         songID = self.get_argument("id")
         songScore = self.get_argument("score","0")
         songSource = self.get_argument("source")
-	fh.write(songID+" "+songScore+" "+songSource+" "+str(datetime.datetime.now()))
+        fh.write(songID+" "+songScore+" "+songSource+" "+str(datetime.datetime.now()))
         #self.finish(cname + " was uploaded!!")
         #self.write("song id: "+songID+" score: "+songScore)
         if (songSource=="composer"):
@@ -68,7 +68,7 @@ class GetSongsHandler(tornado.web.RequestHandler): # From Hit/Shit main page
         self.set_header('Content-Type','application/octet-stream')
         self.set_header('files','latest_midi_set.zip')
         self.write(data)
-	self.finish()
+        self.finish()
         #print(data)
 
 class SaveSongHandler(tornado.web.RequestHandler): # From drawing or composer apps
@@ -76,11 +76,11 @@ class SaveSongHandler(tornado.web.RequestHandler): # From drawing or composer ap
         self.write("SaveSongHandler")
         #fileinfo = self.request.files['filearg'][0]
         #fname = fileinfo['filename']
-    data = self.request.body
-    cname = str(uuid.uuid4()) + '.mid'
-    fh = open(__UPLOADS__ + cname, 'wb')
-    fh.write(base64.b64decode(data.replace("data:image/png;base64,", "")))
-    self.finish(cname + " is uploaded!! Check %s folder" %__UPLOADS__)
+        data = self.request.body
+        cname = str(uuid.uuid4()) + '.mid'
+        fh = open(__UPLOADS__ + cname, 'wb')
+        fh.write(base64.b64decode(data.replace("data:image/png;base64,", "")))
+        self.finish(cname + " is uploaded!! Check %s folder" %__UPLOADS__)
         #filedata = fileinfo['body']
         #print(fname+'  '+filedata[:100])
 
