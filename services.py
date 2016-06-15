@@ -36,7 +36,7 @@ class ScoreSongHandler(tornado.web.RequestHandler): # From Hit/Shit main page
 	songID = self.get_argument("id")
 	songScore = self.get_argument("score","0")
         fh.write(songID+" "+songScore)
-        self.finish(cname + " was uploaded!!)
+        self.finish(cname + " was uploaded!!")
         self.write("song id: "+songID+" score: "+songScore)
         #self.write("\n : "+os.path.join(os.path.dirname(__file__), "client/hitAndShit.html"))
 
